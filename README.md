@@ -34,6 +34,30 @@ dotnet ef database update --project src/PrensTecnologi.Api
 En producción, defina la cadena de conexión con la variable de entorno `ConnectionStrings__PrensDb`
 y aplique las migraciones desde el pipeline de despliegue (por ejemplo con `dotnet ef migrations bundle`).
 
+## Correo del formulario de contacto
+
+`POST /api/contacto` (slice `Features/Contacto/EnviarMensajeContacto`) envía el mensaje del sitio a **wprensh@hotmail.com**
+por SMTP con MailKit. Responder ese correo le escribe directamente al visitante (`Reply-To`).
+Tiene CORS solo para los orígenes de `Cors:AllowedOrigins` y un límite de 5 envíos cada 10 minutos por IP.
+
+La contraseña nunca va en `appsettings`:
+
+```bash
+# Desarrollo
+dotnet user-secrets init --project src/PrensTecnologi.Api
+dotnet user-secrets set "Email:Password" "<contraseña de aplicación>" --project src/PrensTecnologi.Api
+
+# Producción
+export Email__Password="<contraseña de aplicación>"
+```
+
+- Servidor por defecto: `smtp-mail.outlook.com:587` con STARTTLS. Hotmail exige una **contraseña de aplicación**
+  (verificación en dos pasos activada en la cuenta Microsoft). Si Microsoft rechaza el inicio de sesión SMTP,
+  cambie `Email:Host`, `Email:Port` y `Email:UserName` por los de un proveedor transaccional (Brevo, SendGrid…)
+  manteniendo `Email:To` = wprensh@hotmail.com.
+- En desarrollo, sin contraseña, los correos se guardan como `.eml` en `src/PrensTecnologi.Api/correos-dev/`.
+- En producción la API no arranca si falta `Email:Password`.
+
 ## Agregar un nuevo slice
 
 1. Cree `Features/<Módulo>/<Funcionalidad>/<Funcionalidad>.cs`.

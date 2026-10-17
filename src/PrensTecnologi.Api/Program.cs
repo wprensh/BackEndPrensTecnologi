@@ -1,5 +1,6 @@
 using Carter;
 using PrensTecnologi.Api.Common.Behaviors;
+using PrensTecnologi.Api.Common.Email;
 using PrensTecnologi.Api.Common.Http;
 using PrensTecnologi.Api.Database;
 using FluentValidation;
@@ -24,6 +25,10 @@ builder.Services.AddMediatR(config =>
 builder.Services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 
 builder.Services.AddCarter();
+
+// Correo saliente (SMTP de Hotmail) y protección del formulario de contacto: CORS para el sitio y límite por IP.
+builder.Services.AddEmail(builder.Configuration, builder.Environment);
+builder.Services.AddWebPolicies(builder.Configuration);
 builder.Services.AddSingleton(TimeProvider.System);
 
 builder.Services.AddProblemDetails();
@@ -33,6 +38,8 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 app.UseExceptionHandler();
+app.UseCors();
+app.UseRateLimiter();
 
 if (app.Environment.IsDevelopment())
 {

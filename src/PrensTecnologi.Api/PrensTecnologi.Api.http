@@ -32,3 +32,27 @@ Content-Type: application/json
   "email": "no-es-un-correo",
   "fechaNacimiento": "2020-01-01"
 }
+
+### Formulario de contacto: envía el mensaje a wprensh@hotmail.com (202)
+POST {{api}}/api/contacto
+Content-Type: application/json
+
+{
+  "nombre": "Ana Gómez",
+  "correo": "ana@correo.com",
+  "empresa": "Hotel Caribe",
+  "telefono": "300 123 4567",
+  "interes": "Nube y DevOps",
+  "mensaje": "Queremos llevar nuestra aplicación de reservas a Azure."
+}
+
+### Contacto con datos inválidos (400)
+POST {{api}}/api/contacto
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "correo": "ana@correo",
+  "interes": "",
+  "mensaje": "corto"
+}
