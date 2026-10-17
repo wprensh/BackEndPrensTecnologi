@@ -10,10 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
 
 // Base de datos: PostgreSQL con EF Core 9 (Code-First), tablas y columnas en snake_case.
-// La cadena de conexión vive en ConnectionStrings:PrensDb.
+// La cadena de conexión vive en ConnectionStrings:PrensDb (formato Npgsql o URL postgresql://, como la entrega Render).
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
-        .UseNpgsql(builder.Configuration.GetConnectionString("PrensDb"))
+        .UseNpgsql(PostgresConnectionString.Normalize(builder.Configuration.GetConnectionString("PrensDb")))
         .UseSnakeCaseNamingConvention());
 
 // CQRS: MediatR descubre los handlers de todos los slices y aplica la validación como pipeline.
@@ -44,11 +44,18 @@ app.UseRateLimiter();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+}
 
-    // Solo en desarrollo: crea o actualiza la base al arrancar. En producción, aplique las migraciones en el pipeline de despliegue.
+// Crea o actualiza la base al arrancar: siempre en desarrollo, y en producción si Database:MigrateOnStartup = true
+// (Render no tiene un paso de despliegue para migraciones en el plan gratuito).
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+{
     await using var scope = app.Services.CreateAsyncScope();
     await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
 }
+
+// Sonda de salud para Render (healthCheckPath) y monitoreo.
+app.MapGet("/health", () => Results.Ok(new { estado = "ok" })).ExcludeFromDescription();
 
 app.MapCarter();
 

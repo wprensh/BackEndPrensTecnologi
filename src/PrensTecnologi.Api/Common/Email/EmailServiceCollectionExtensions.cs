@@ -4,7 +4,7 @@ public static class EmailServiceCollectionExtensions
 {
     /// <summary>
     /// Registra el envío de correo. Con contraseña configurada usa SMTP; sin ella, en desarrollo
-    /// guarda los correos en disco y en cualquier otro entorno falla al arrancar.
+    /// guarda los correos en disco y en cualquier otro entorno responde que el envío no está disponible.
     /// </summary>
     public static IServiceCollection AddEmail(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
@@ -14,18 +14,19 @@ public static class EmailServiceCollectionExtensions
         services.AddOptions<EmailOptions>()
             .Bind(section)
             .ValidateDataAnnotations()
-            .Validate(
-                options => environment.IsDevelopment() || !string.IsNullOrWhiteSpace(options.Password),
-                "Falta Email:Password. Defínala con la variable de entorno Email__Password.")
             .ValidateOnStart();
 
-        if (hasPassword || !environment.IsDevelopment())
+        if (hasPassword)
         {
             services.AddTransient<IEmailSender, SmtpEmailSender>();
         }
-        else
+        else if (environment.IsDevelopment())
         {
             services.AddTransient<IEmailSender, PickupDirectoryEmailSender>();
+        }
+        else
+        {
+            services.AddTransient<IEmailSender, UnconfiguredEmailSender>();
         }
 
         return services;

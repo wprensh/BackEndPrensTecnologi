@@ -1,0 +1,34 @@
+# Blueprint de Render: en el panel, New > Blueprint y elija este repositorio.
+# Crea la Web API (Docker) y su base PostgreSQL, y las conecta entre sí.
+services:
+  - type: web
+    name: prens-tecnologi-api
+    runtime: docker
+    plan: free
+    region: virginia
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Database__MigrateOnStartup
+        value: "true"
+      - key: ConnectionStrings__PrensDb
+        fromDatabase:
+          name: prens-tecnologi-db
+          property: connectionString
+      # Contraseña de aplicación de wprensh@hotmail.com: Render la pide al crear el Blueprint (no se guarda en el repo).
+      - key: Email__Password
+        sync: false
+
+databases:
+  - name: prens-tecnologi-db
+    plan: free
+    region: virginia
+    databaseName: prens_tecnologi
+    user: prens

@@ -56,7 +56,27 @@ export Email__Password="<contraseña de aplicación>"
   cambie `Email:Host`, `Email:Port` y `Email:UserName` por los de un proveedor transaccional (Brevo, SendGrid…)
   manteniendo `Email:To` = wprensh@hotmail.com.
 - En desarrollo, sin contraseña, los correos se guardan como `.eml` en `src/PrensTecnologi.Api/correos-dev/`.
-- En producción la API no arranca si falta `Email:Password`.
+- Fuera de desarrollo, si falta `Email:Password` la API arranca igual y `POST /api/contacto` responde 503.
+
+## Despliegue en Render (Docker)
+
+El repositorio incluye `Dockerfile` y `render.yaml` (Blueprint):
+
+1. En https://dashboard.render.com elija **New > Blueprint** y conecte este repositorio (rama `main`).
+2. Render crea el servicio web `prens-tecnologi-api` (Docker) y la base `prens-tecnologi-db` (PostgreSQL),
+   y pasa la cadena de conexión a la API. Las migraciones se aplican al arrancar (`Database__MigrateOnStartup=true`).
+3. Cuando pida `Email__Password`, pegue la contraseña de aplicación de wprensh@hotmail.com (se puede dejar vacía y agregarla después en *Environment*).
+4. Al terminar, la API queda en `https://prens-tecnologi-api.onrender.com` (compruebe `/health`).
+
+Probar la imagen localmente:
+
+```bash
+docker build -t prens-tecnologi-api .
+docker run -p 8080:8080 -e ConnectionStrings__PrensDb="postgresql://prens:prens_dev@host.docker.internal:5432/prens_tecnologi" -e Database__MigrateOnStartup=true prens-tecnologi-api
+```
+
+Plan gratuito de Render: el servicio se duerme tras 15 minutos sin uso (la primera petición tarda cerca de un minuto)
+y la base PostgreSQL gratuita vence a los 30 días.
 
 ## Agregar un nuevo slice
 
