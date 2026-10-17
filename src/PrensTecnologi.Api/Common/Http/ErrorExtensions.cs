@@ -1,6 +1,6 @@
-using CursosEnLinea.Api.Common.Results;
+using PrensTecnologi.Api.Common.Results;
 
-namespace CursosEnLinea.Api.Common.Http;
+namespace PrensTecnologi.Api.Common.Http;
 
 public static class ErrorExtensions
 {

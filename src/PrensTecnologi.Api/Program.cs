@@ -1,7 +1,7 @@
 using Carter;
-using CursosEnLinea.Api.Common.Behaviors;
-using CursosEnLinea.Api.Common.Http;
-using CursosEnLinea.Api.Database;
+using PrensTecnologi.Api.Common.Behaviors;
+using PrensTecnologi.Api.Common.Http;
+using PrensTecnologi.Api.Database;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
 
 // Base de datos: PostgreSQL con EF Core 9 (Code-First), tablas y columnas en snake_case.
-// La cadena de conexión vive en ConnectionStrings:CursosDb.
+// La cadena de conexión vive en ConnectionStrings:PrensDb.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
-        .UseNpgsql(builder.Configuration.GetConnectionString("CursosDb"))
+        .UseNpgsql(builder.Configuration.GetConnectionString("PrensDb"))
         .UseSnakeCaseNamingConvention());
 
 // CQRS: MediatR descubre los handlers de todos los slices y aplica la validación como pipeline.

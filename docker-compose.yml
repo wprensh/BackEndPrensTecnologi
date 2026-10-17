@@ -1,15 +1,15 @@
 services:
   postgres:
     image: postgres:17
-    container_name: cursos-postgres
+    container_name: prens-postgres
     environment:
-      POSTGRES_DB: cursos_en_linea
-      POSTGRES_USER: cursos
-      POSTGRES_PASSWORD: cursos_dev
+      POSTGRES_DB: prens_tecnologi
+      POSTGRES_USER: prens
+      POSTGRES_PASSWORD: prens_dev
     ports:
       - "5432:5432"
     volumes:
-      - cursos-data:/var/lib/postgresql/data
+      - prens-data:/var/lib/postgresql/data
 
 volumes:
-  cursos-data:
+  prens-data:

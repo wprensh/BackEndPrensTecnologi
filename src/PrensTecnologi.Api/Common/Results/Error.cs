@@ -1,4 +1,4 @@
-namespace CursosEnLinea.Api.Common.Results;
+namespace PrensTecnologi.Api.Common.Results;
 
 public enum ErrorType
 {

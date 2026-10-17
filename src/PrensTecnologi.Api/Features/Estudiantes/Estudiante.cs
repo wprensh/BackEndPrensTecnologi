@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CursosEnLinea.Api.Features.Estudiantes;
+namespace PrensTecnologi.Api.Features.Estudiantes;
 
 public sealed class Estudiante
 {

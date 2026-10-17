@@ -1,13 +1,13 @@
 using Carter;
-using CursosEnLinea.Api.Common.Http;
-using CursosEnLinea.Api.Common.Results;
-using CursosEnLinea.Api.Database;
+using PrensTecnologi.Api.Common.Http;
+using PrensTecnologi.Api.Common.Results;
+using PrensTecnologi.Api.Database;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace CursosEnLinea.Api.Features.Estudiantes.RegistrarEstudiante;
+namespace PrensTecnologi.Api.Features.Estudiantes.RegistrarEstudiante;
 
 // e) Respuesta que recibe el cliente.
 public sealed record RegistrarEstudianteResponse(

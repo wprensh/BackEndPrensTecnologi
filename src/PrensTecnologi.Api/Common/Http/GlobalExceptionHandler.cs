@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 
-namespace CursosEnLinea.Api.Common.Http;
+namespace PrensTecnologi.Api.Common.Http;
 
 /// <summary>
 /// Último punto de control de errores: los fallos de validación y los cuerpos mal formados se responden

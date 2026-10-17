@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace CursosEnLinea.Api.Common.Behaviors;
+namespace PrensTecnologi.Api.Common.Behaviors;
 
 /// <summary>
 /// Ejecuta todos los validadores de FluentValidation del request antes de llegar al handler.

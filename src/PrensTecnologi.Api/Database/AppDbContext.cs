@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace CursosEnLinea.Api.Database;
+namespace PrensTecnologi.Api.Database;
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {

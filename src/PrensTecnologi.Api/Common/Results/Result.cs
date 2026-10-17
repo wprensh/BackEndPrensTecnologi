@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace CursosEnLinea.Api.Common.Results;
+namespace PrensTecnologi.Api.Common.Results;
 
 /// <summary>Resultado de una operación: el valor si tuvo éxito, o el <see cref="Error"/> que lo impidió.</summary>
 public sealed class Result<TValue>

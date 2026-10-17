@@ -1,4 +1,4 @@
-# Cursos en Línea · Web API
+# Prens Tecnologi · Web API
 
 Web API en .NET 9 y C# 13 con **arquitectura vertical** (Vertical Slice Architecture): cada funcionalidad vive completa en su carpeta bajo `Features/`.
 
@@ -18,20 +18,20 @@ Web API en .NET 9 y C# 13 con **arquitectura vertical** (Vertical Slice Architec
 ```bash
 docker compose up -d                 # PostgreSQL en localhost:5432
 dotnet tool restore                  # instala dotnet-ef 9
-dotnet run --project src/CursosEnLinea.Api
+dotnet run --project src/PrensTecnologi.Api
 ```
 
 En desarrollo la API aplica las migraciones al arrancar y publica OpenAPI en `http://localhost:5237/openapi/v1.json`.
-Las peticiones de ejemplo están en `src/CursosEnLinea.Api/CursosEnLinea.Api.http`.
+Las peticiones de ejemplo están en `src/PrensTecnologi.Api/PrensTecnologi.Api.http`.
 
 ## Migraciones
 
 ```bash
-dotnet ef migrations add <Nombre> --project src/CursosEnLinea.Api --output-dir Database/Migrations
-dotnet ef database update --project src/CursosEnLinea.Api
+dotnet ef migrations add <Nombre> --project src/PrensTecnologi.Api --output-dir Database/Migrations
+dotnet ef database update --project src/PrensTecnologi.Api
 ```
 
-En producción, defina la cadena de conexión con la variable de entorno `ConnectionStrings__CursosDb`
+En producción, defina la cadena de conexión con la variable de entorno `ConnectionStrings__PrensDb`
 y aplique las migraciones desde el pipeline de despliegue (por ejemplo con `dotnet ef migrations bundle`).
 
 ## Agregar un nuevo slice
