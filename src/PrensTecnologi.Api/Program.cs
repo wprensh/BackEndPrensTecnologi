@@ -48,7 +48,9 @@ if (app.Environment.IsDevelopment())
 
 // Crea o actualiza la base al arrancar: siempre en desarrollo, y en producción si Database:MigrateOnStartup = true
 // (Render no tiene un paso de despliegue para migraciones en el plan gratuito).
-if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+// Sin cadena de conexión se omite: la API arranca igual (por ejemplo, para el formulario de contacto).
+var migrateOnStartup = app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Database:MigrateOnStartup");
+if (migrateOnStartup && !string.IsNullOrWhiteSpace(app.Configuration.GetConnectionString("PrensDb")))
 {
     await using var scope = app.Services.CreateAsyncScope();
     await scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.MigrateAsync();
