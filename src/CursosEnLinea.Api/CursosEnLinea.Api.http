@@ -1,0 +1,34 @@
+@api = http://localhost:5237
+
+### Registrar un estudiante (201)
+POST {{api}}/api/estudiantes
+Content-Type: application/json
+
+{
+  "nombres": "Ana María",
+  "apellidos": "Gómez",
+  "email": "ana.gomez@correo.com",
+  "fechaNacimiento": "2001-05-14"
+}
+
+### Correo repetido (409)
+POST {{api}}/api/estudiantes
+Content-Type: application/json
+
+{
+  "nombres": "Ana",
+  "apellidos": "Gómez",
+  "email": "ANA.GOMEZ@correo.com",
+  "fechaNacimiento": "2001-05-14"
+}
+
+### Datos inválidos (400)
+POST {{api}}/api/estudiantes
+Content-Type: application/json
+
+{
+  "nombres": "",
+  "apellidos": "Gómez",
+  "email": "no-es-un-correo",
+  "fechaNacimiento": "2020-01-01"
+}
